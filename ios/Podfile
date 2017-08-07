@@ -1,0 +1,27 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '8.0'
+inhibit_all_warnings!
+
+def pod_react_native
+    pod 'Yoga', :path => "../node_modules/react-native/ReactCommon/yoga"
+    pod 'React',:path=>"../node_modules/react-native", :subspecs => [
+            'Core',
+            'RCTImage',
+            'RCTNetwork',
+            'RCTText',
+            'RCTWebSocket',
+            'ART',
+            'RCTActionSheet',
+            'RCTGeolocation',
+            'RCTPushNotification',
+            'RCTSettings',
+            'RCTVibration',
+            'RCTLinkingIOS',
+            'RCTCameraRoll',
+            'RCTAnimation',
+    ]
+end
+
+target 'Weather' do
+    pod_react_native()
+end

@@ -1,0 +1,67 @@
+PODS:
+  - React/ART (0.43.3):
+    - React/Core
+  - React/Core (0.43.3):
+    - React/cxxreact
+    - Yoga (= 0.43.3.React)
+  - React/cxxreact (0.43.3):
+    - React/jschelpers
+  - React/jschelpers (0.43.3)
+  - React/RCTActionSheet (0.43.3):
+    - React/Core
+  - React/RCTAnimation (0.43.3):
+    - React/Core
+  - React/RCTCameraRoll (0.43.3):
+    - React/Core
+    - React/RCTImage
+  - React/RCTGeolocation (0.43.3):
+    - React/Core
+  - React/RCTImage (0.43.3):
+    - React/Core
+    - React/RCTNetwork
+  - React/RCTLinkingIOS (0.43.3):
+    - React/Core
+  - React/RCTNetwork (0.43.3):
+    - React/Core
+  - React/RCTPushNotification (0.43.3):
+    - React/Core
+  - React/RCTSettings (0.43.3):
+    - React/Core
+  - React/RCTText (0.43.3):
+    - React/Core
+  - React/RCTVibration (0.43.3):
+    - React/Core
+  - React/RCTWebSocket (0.43.3):
+    - React/Core
+  - Yoga (0.43.3.React)
+
+DEPENDENCIES:
+  - React/ART (from `../node_modules/react-native`)
+  - React/Core (from `../node_modules/react-native`)
+  - React/RCTActionSheet (from `../node_modules/react-native`)
+  - React/RCTAnimation (from `../node_modules/react-native`)
+  - React/RCTCameraRoll (from `../node_modules/react-native`)
+  - React/RCTGeolocation (from `../node_modules/react-native`)
+  - React/RCTImage (from `../node_modules/react-native`)
+  - React/RCTLinkingIOS (from `../node_modules/react-native`)
+  - React/RCTNetwork (from `../node_modules/react-native`)
+  - React/RCTPushNotification (from `../node_modules/react-native`)
+  - React/RCTSettings (from `../node_modules/react-native`)
+  - React/RCTText (from `../node_modules/react-native`)
+  - React/RCTVibration (from `../node_modules/react-native`)
+  - React/RCTWebSocket (from `../node_modules/react-native`)
+  - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
+
+EXTERNAL SOURCES:
+  React:
+    :path: "../node_modules/react-native"
+  Yoga:
+    :path: "../node_modules/react-native/ReactCommon/yoga"
+
+SPEC CHECKSUMS:
+  React: f92caf8f7c132a7c311302b51f9576c4b38acfce
+  Yoga: 67a0193245365089c48526201499f7df334e05f7
+
+PODFILE CHECKSUM: d7eca9364799369f7eff9505ac93d901916f86fe
+
+COCOAPODS: 1.2.1
