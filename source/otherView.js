@@ -75,12 +75,20 @@ const temperature = StyleSheet.create({
 // 下部的工具bar
 class BottomToolBar extends Component {
   render() {
+    var pageText = ()=>{
+      var text = '';
+      for (var i = 0; i < this.props.pageCount; i++) {
+          text += i == this.props.selectIndex?'●':'○';
+      }
+      return text
+    }
     return (
       <View style={bottomBar.container}>
         <TouchableOpacity
           onPress={this.props.onPressLeft}>
           <Image source={require('./../assets/weatherIcon.png')} style={bottomBar.logoIcon}/>
         </TouchableOpacity>
+        <Text style={bottomBar.pageControl}>{pageText()}</Text>
         <TouchableOpacity
           onPress={this.props.onPressRight}>
           <Image source={require('./../assets/menu.png')} style={bottomBar.logoIcon}/>
@@ -92,7 +100,7 @@ class BottomToolBar extends Component {
 const bottomBar = StyleSheet.create({
   container:{
     height:40,
-    borderTopWidth:0.5,
+    borderTopWidth:1,
     borderTopColor:'white',
     flexDirection:'row',
     alignItems:'center',
@@ -103,11 +111,18 @@ const bottomBar = StyleSheet.create({
     width:30,
     height:30,
     resizeMode:'cover'
+  },
+  pageControl:{
+    textAlign:'center',
+    color:'white',
+    fontSize:12,
   }
 })
 BottomToolBar.defaultProps = {
   onPressLeft:() => {},
   onPressRight:() => {},
+  pageCount:0,
+  selectIndex:0,
 }
 
 module.exports = {

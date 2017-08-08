@@ -10,17 +10,36 @@ import {
 import Utilies from './utilies'
 
 class CityCell extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        time:'-',
+        temperature:'-',
+    };
+  }
+  componentWillMount() {
+    Utilies.appleAPI.queryWeather(this.props.cityData.lat, this.props.cityData.lon, (data)=>{
+      var str2Bit = (d)=>(d<10?'0'+d:''+d)
+      var theDate = new Date(data.conditionsshort.observation.valid_time_gmt * 1000)
+      var timeStr = str2Bit(theDate.getHours())+':'+str2Bit(theDate.getMinutes())
+      this.setState({
+        time:timeStr,
+        temperature: data.conditionsshort.observation.metric.temp,
+      })
+    })
+  }
+
   render() {
     var nameView = (
       <View >
-        <Text style={{color:'white',fontSize:14,}}>{this.props.cityTime}</Text>
-        <Text style={{color:'white',fontSize:34,}}>{this.props.cityName}</Text>
+        <Text style={{color:'white',fontSize:14,}}>{this.state.time}</Text>
+      <Text style={{color:'white',fontSize:34,}}>{this.props.cityData.name}</Text>
       </View>
     )
     return (
       <View style={[cityCell.container, {backgroundColor:this.randomColor()}]}>
         {nameView}
-        <Text style={cityCell.temperature}>{this.props.temperature+'°'}</Text>
+        <Text style={cityCell.temperature}>{this.state.temperature+'°'}</Text>
       </View>
     );
   }
@@ -48,10 +67,13 @@ const cityCell = StyleSheet.create({
     backgroundColor:'rgba(0,0,0,0)',
   }
 })
+/*
+cityName={'上海市'}
+cityTime={'12:22'}
+temperature={33}
+*/
 cityCell.defaultProps = {
-  cityName:'',
-  cityTime:'',
-  temperature:'0',
+  cityData:null,
 }
 
 // 添加一个城市

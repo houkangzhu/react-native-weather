@@ -21,7 +21,7 @@ class AddCityPage extends Component {
   }
   render() {
     return (
-      <View style={{flex:1,backgroundColor:'dodgerblue'}}>
+      <View style={{flex:1,backgroundColor:'#444444'}}>
         <CitySearchBar cancelAction={()=>{this.props.navigator.pop()}}
           inputTextAction={(text)=>this.searchCity(text)}
         />
@@ -31,10 +31,18 @@ class AddCityPage extends Component {
       </View>
     );
   }
-  renderRow(rowData){
+  renderRow(rowData) {
+    var lat = parseFloat(rowData.lat);
+    var lon = parseFloat(rowData.lon);
+    if(lat < -90 || lat > 90 || lon < -180 || lon > 180) {
+        return (<View/>);
+    }
     return(
       <TouchableOpacity style={{height:30,marginLeft:10,justifyContent:'center'}}
-        onPress={this.props.navigator.pop}
+        onPress={()=>{
+          this.props.navigator.pop()
+          this.props.selectedCity(rowData)
+        }}
         >
         <Text style={{color:'white', fontSize:12}}>{rowData.name}</Text>
       </TouchableOpacity>
@@ -44,7 +52,7 @@ class AddCityPage extends Component {
     var reload = (data) => {
         this.setState({
           dataSource:this.state.dataSource.cloneWithRows(
-            data == null ? []: data.RESULTS),
+            data == null ? []: data),
         })
     }
     if (text.length == 0) {
@@ -54,6 +62,10 @@ class AddCityPage extends Component {
       Utilies.searchCity(text,(data) => {reload(data)})
     }
   }
+}
+
+AddCityPage.defaultProps = {
+  selectedCity:(city) =>{},
 }
 
 class CitySearchBar extends Component {

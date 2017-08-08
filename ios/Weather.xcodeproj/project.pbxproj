@@ -125,8 +125,8 @@
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = WDHFU9J352;
-						ProvisioningStyle = Manual;
+						DevelopmentTeam = 5ND2L5DVV4;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -252,10 +252,10 @@
 			baseConfigurationReference = EF708ADE827549F911EED651 /* Pods-Weather.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = WDHFU9J352;
+				DEVELOPMENT_TEAM = 5ND2L5DVV4;
 				INFOPLIST_FILE = Weather/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -265,8 +265,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.houkangzhu.reactNative.Weather;
 				PRODUCT_NAME = Weather;
-				PROVISIONING_PROFILE = "e77efb52-fa51-42cd-b6f4-51dabe752f18";
-				PROVISIONING_PROFILE_SPECIFIER = "XC Ad Hoc: *";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -276,8 +276,9 @@
 			baseConfigurationReference = CDFA5FBFD752E48F14FFA5A5 /* Pods-Weather.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5ND2L5DVV4;
 				INFOPLIST_FILE = Weather/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
