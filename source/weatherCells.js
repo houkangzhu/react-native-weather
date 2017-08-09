@@ -16,6 +16,11 @@ const styles = StyleSheet.create({
       color:'white',
       backgroundColor:Utilies.clearColor,
     },
+    plainText16:{
+      fontSize:16,
+      color:'white',
+      backgroundColor:Utilies.clearColor,
+    },
     weatherIcon:{
       width:20,
       height:20,
@@ -29,8 +34,8 @@ class TodayOverviewCell extends Component {
     var temps = this.props.weatherData.observation.metric;
     return (
       <View style={todayOverview.container}>
-        <Text style={styles.plainText}>{Utilies.getCurrentWeekDay()}  今天</Text>
-      <Text style={styles.plainText}>{temps.max_temp} {temps.min_temp}</Text>
+        <Text style={styles.plainText16}>{Utilies.getCurrentWeekDay()}  今天</Text>
+      <Text style={styles.plainText16}>{temps.max_temp} {temps.min_temp}</Text>
       </View>
     );
   }
@@ -55,7 +60,7 @@ class HourDetailView extends Component {
     return (
       <View style={hourDetail.container}>
         <Text style={styles.plainText}>{this.props.hourStr}</Text>
-        <Image style={styles.weatherIcon} source={{uri:this.props.iconUrl}}/>
+        {Utilies.iconImage(this.props.iconType)}
         <Text style={styles.plainText}>{this.props.tmpStr}</Text>
       </View>
     );
@@ -70,7 +75,7 @@ const hourDetail = StyleSheet.create({
 })
 HourDetailView.defaultProps = {
   hourStr:'',
-  iconUrl:'',
+  iconType:'',
   tmpStr:'',
 }
 
@@ -95,7 +100,7 @@ class TodayDetailHeader extends Component {
       }
       views.push(
         <HourDetailView hourStr = {dateStr}
-          iconUrl={Utilies.commonIconURI}
+          iconType={data.icon_cd}
           tmpStr={tempStr}
           key={i}
         />
@@ -114,7 +119,7 @@ class TodayDetailHeader extends Component {
     );
   }
 }
-TodayDetailHeader.createCustomData = (timeString, type = Utilies.commonIconURI, tempStr) => {
+TodayDetailHeader.createCustomData = (timeString, type, tempStr) => {
     return {
       dateStr:timeString,
       type:type,
@@ -124,11 +129,11 @@ TodayDetailHeader.createCustomData = (timeString, type = Utilies.commonIconURI, 
 const todayDetail = StyleSheet.create({
   container:{
     height:80,
-    borderTopWidth:1,
-    borderTopColor:'white',
-    borderBottomWidth:1,
-    borderBottomColor:'white',
-    backgroundColor:'#abcdedaa'
+    borderTopWidth:Utilies.lineWidth,
+    borderTopColor:Utilies.lineColor,
+    borderBottomWidth:Utilies.lineWidth,
+    borderBottomColor:Utilies.lineColor,
+    backgroundColor:Utilies.commonBgColor
   }
 })
 TodayDetailHeader.defaultProps = {
@@ -149,9 +154,9 @@ class FutureWeatherCell extends Component {
     var viewCreator = function(data, index) {
       return (
         <View style={futureWeather.container} key={i}>
-          <Text style={styles.plainText}>{data.dow}</Text>
-          <Image style={styles.weatherIcon} source={{uri:Utilies.commonIconURI}}/>
-          <Text style={styles.plainText}>{data.metric.max_temp} {data.metric.min_temp}</Text>
+          <Text style={styles.plainText16}>{data.dow}</Text>
+         {Utilies.iconImage(data.day.icon_cd)}
+        <Text style={styles.plainText16}>{data.metric.max_temp} {data.metric.min_temp}</Text>
        </View>
       )
     }
@@ -180,22 +185,33 @@ FutureWeatherCell.defaultProps = {
 // 天气的描述文字
 class WeatherDescribeCell extends Component {
   render() {
+    var weatherData = this.props.weatherData;
+    var describe = '';
+    if (weatherData != null) {
+      describe = '今天：现在是'+weatherData.conditionsshort.observation.wx_phrase +
+      '。最高气温'+ weatherData.conditionsshort.observation.metric.max_temp+'°。今晚是'+
+      weatherData.fcstdaily10short.forecasts[0].night.phrase_32char +',最低气温'+
+      weatherData.conditionsshort.observation.metric.min_temp+'°。';
+    }
     return (
       <View style={weatherDescribe.container}>
-        <Text style={[styles.plainText,{fontSize:16}]}>今天：见天天气很好，不错不错，见天天气很好，不错不错，见天天气很好，不错不错，见天天气很好，不错不错，</Text>
+        <Text style={styles.plainText16}>{describe}</Text>
       </View>
     );
   }
 }
 const weatherDescribe = StyleSheet.create({
   container:{
-    borderTopWidth:1,
-    borderTopColor:'white',
-    borderBottomWidth:1,
-    borderBottomColor:'white',
+    borderTopWidth:Utilies.lineWidth,
+    borderTopColor:Utilies.lineColor,
+    borderBottomWidth:Utilies.lineWidth,
+    borderBottomColor:Utilies.lineColor,
     padding:10,
   }
 })
+WeatherDescribeCell.defaultProps = {
+  weatherData:null,
+}
 
 const DetailNames = {
   sunrise:'日出',
@@ -216,7 +232,7 @@ class WeatherDetailCell extends Component {
     var items = [];
     for (var i = 0; i < values.length; i++) {
       items.push(
-        <Text style={[styles.plainText,{paddingTop:i%2==0?5:2, paddingBottom:i%2==0?2:5,textAlign:align, height:24}]}
+        <Text style={[styles.plainText16,{paddingTop:i%2==0?5:2, paddingBottom:i%2==0?2:5,textAlign:align, height:24}]}
           key={i}>{values[i]}</Text>
       )
     }

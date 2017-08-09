@@ -63,7 +63,7 @@ class MainPage extends Component {
   }
   render() {
     return(
-      <View style = {{flex:1}}>
+      <View style = {{flex:1, backgroundColor:Utilies.commonBgColor}}>
         <StatusBar barStyle="light-content"/>
         <BackgroundView />
       <ScrollView style={{flex:1}} ref={'rootScroll'}

@@ -37,19 +37,11 @@ class CityCell extends Component {
       </View>
     )
     return (
-      <View style={[cityCell.container, {backgroundColor:this.randomColor()}]}>
+      <View style={[cityCell.container, {backgroundColor:Utilies.randomColor()}, this.props.style]}>
         {nameView}
         <Text style={cityCell.temperature}>{this.state.temperature+'°'}</Text>
       </View>
     );
-  }
-  randomColor() {
-     var color = '#'+Math.floor(Math.random()*16777215).toString(16);
-     var subLen = 7-color.length;
-     for (var i = 0; i < subLen; i++) {
-       color += '0'
-     }
-     return color
   }
 }
 const cityCell = StyleSheet.create({
@@ -67,13 +59,9 @@ const cityCell = StyleSheet.create({
     backgroundColor:'rgba(0,0,0,0)',
   }
 })
-/*
-cityName={'上海市'}
-cityTime={'12:22'}
-temperature={33}
-*/
 cityCell.defaultProps = {
   cityData:null,
+  style:{},
 }
 
 // 添加一个城市

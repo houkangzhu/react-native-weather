@@ -11,7 +11,7 @@ class BackgroundView extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image source={require('./../assets/bgpic.png')} style={{flex:1,width:null,}}/>
+        <Image source={require('./../assets/bg2.png')} style={{flex:1,width:null,}}/>
       </View>
     );
   }

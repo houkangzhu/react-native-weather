@@ -14,13 +14,17 @@ import Utilies from './utilies'
 class TitleView extends Component {
   render() {
     return (
-      <View style={[titleStyles.bgView, {paddingTop:this.props.topOffset}]}>
+      <View style={[titleStyles.bgView, {paddingTop:80}]}
+        ref={'titleView'}>
         <Text style={[titleStyles.cityName, {fontSize:36}]}>{this.props.cityName}
         </Text>
-        <Text style={[titleStyles.cityName, {fontSize:14}]}>{this.props.weatherType}
+        <Text style={[titleStyles.cityName, {fontSize:18}]}>{this.props.weatherType}
         </Text>
       </View>
     );
+  }
+  setNativeProps(value) {
+    this.refs.titleView.setNativeProps(value);
   }
 }
 const titleStyles = StyleSheet.create({
@@ -37,7 +41,6 @@ const titleStyles = StyleSheet.create({
 TitleView.defaultProps = {
   cityName:'',
   weatherType:'',
-  topOffset:30,
 }
 
 
@@ -45,15 +48,17 @@ TitleView.defaultProps = {
 class TemperatureView extends Component {
   render() {
     return (
-      <View style={[temperature.container, {opacity:this.props.alpha,top:this.props.topOffset}]}>
+      <View ref={'temperature'}
+        style={[temperature.container, {opacity:1.0,top:Utilies.titleViewHeight }]}>
         <Text style={temperature.temperature}> {this.props.temperature}°</Text>
       </View>
     );
   }
+  setNativeProps(value) {
+    this.refs.temperature.setNativeProps(value);
+  }
 }
 TemperatureView.defaultProps = {
-  alpha:1.0,
-  topOffset:Utilies.titleViewHeight,
   temperature:'-',
 }
 const temperature = StyleSheet.create({
@@ -66,9 +71,10 @@ const temperature = StyleSheet.create({
   },
   temperature:{
     color:'white',
-    fontSize:88,
+    fontSize:120,
     fontWeight:'100',
     backgroundColor:Utilies.clearColor,
+    paddingTop:10,
   }
 })
 
@@ -100,8 +106,8 @@ class BottomToolBar extends Component {
 const bottomBar = StyleSheet.create({
   container:{
     height:40,
-    borderTopWidth:1,
-    borderTopColor:'white',
+    borderTopWidth:Utilies.lineWidth,
+    borderTopColor:Utilies.lineColor,
     flexDirection:'row',
     alignItems:'center',
     justifyContent:'space-between',

@@ -62,13 +62,14 @@ class CityListPage extends Component {
     )
   }
   renderRow(rowData) {
+    var paddingTop = (Utilies.isIOS && Utilies.allCitys.indexOf(rowData) ==0) ? 20 : 0;
     return(
       <TouchableOpacity activeOpacity={1.0}
           onPress={()=>{
             this.props.onChangeCity(rowData)
             this.props.navigator.pop()}
           }>
-          <CityCell cityData={rowData}/>
+          <CityCell cityData={rowData} style={{paddingTop:paddingToprr}}/>
       </TouchableOpacity>)
   }
   renderDeleteRow(data, secId, rowId, rowMap) {

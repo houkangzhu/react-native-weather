@@ -101,7 +101,7 @@ class CitySearchBar extends Component {
 }
 const citySearchBar = StyleSheet.create({
   container:{
-    paddingTop:20,
+    paddingTop: Utilies.isIOS ? 20 : 0,
     height:64,
     backgroundColor:'#111111aa',
     alignItems:'center'

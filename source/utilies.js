@@ -1,14 +1,52 @@
 'use strict';
 import React from 'react';
+import {Image} from 'react-native';
 import {
   AsyncStorage,
-}
- from 'react-native';
+}  from 'react-native';
+import moment from 'moment';
+
+// 随机生成颜色
+function randomColor() {
+    var color = '#'+Math.floor(Math.random()*16777215).toString(16);
+    var subLen = 7-color.length;
+    for (var i = 0; i < subLen; i++) {
+      color += '0'
+    }
+    return color
+ }
+// 天气类型的Icon  0...18
+function iconImage(type) {
+  var source = require('./../assets/weatherIcon/0.png');
+  if (type == 1) { source = require('./../assets/weatherIcon/1.png');}
+  if (type == 2) { source = require('./../assets/weatherIcon/2.png');}
+  if (type == 3) { source = require('./../assets/weatherIcon/3.png');}
+  if (type == 4) { source = require('./../assets/weatherIcon/4.png');}
+  if (type == 5) { source = require('./../assets/weatherIcon/5.png');}
+  if (type == 6) { source = require('./../assets/weatherIcon/6.png');}
+  if (type == 7) { source = require('./../assets/weatherIcon/7.png');}
+  if (type == 8) { source = require('./../assets/weatherIcon/8.png');}
+  if (type == 9) { source = require('./../assets/weatherIcon/9.png');}
+  if (type == 10) { source = require('./../assets/weatherIcon/10.png');}
+  if (type == 11) { source = require('./../assets/weatherIcon/11.png');}
+  if (type == 12) { source = require('./../assets/weatherIcon/12.png');}
+  if (type == 13) { source = require('./../assets/weatherIcon/13.png');}
+  if (type == 14) { source = require('./../assets/weatherIcon/14.png');}
+  if (type == 15) { source = require('./../assets/weatherIcon/15.png');}
+  if (type == 16) { source = require('./../assets/weatherIcon/16.png');}
+  if (type == 17) { source = require('./../assets/weatherIcon/17.png');}
+  if (type == 18) { source = require('./../assets/weatherIcon/18.png');}
+   return (
+     <Image style={{width:20,height:20,resizeMode:'contain'}} source={source}
+      //  source={{uri:'file://./../assets/weatherIcon/'+type+'.png'}}
+     />
+   )
+ }
 
 const API_KEY = '28252535e4062e2d';
 // 天气查询的URL
 const BASE_URL = 'http://api.wunderground.com/api/' + API_KEY;
-
+// 这个接口搜出来的是英文的。。。
 function searchCity(keywords, callback) {
   var url = 'http://autocomplete.wunderground.com/aq?format=JSON&query='+keywords;
   fetch(url,{
@@ -26,6 +64,7 @@ function searchCity(keywords, callback) {
 }
 
 const cityWeathers = {};
+const CurrentDateKey = 'CurrentDateKey';
 function appleQueryWeather(lat, lon, callback) {
   var key = lat + '/' + lon ;
   if (cityWeathers[key] != null) {
@@ -52,8 +91,8 @@ function getCurrentWeekDay() {
 
 // 2017-08-07T19:00:00+0800
 function customDateFomatter(dateStr) {
-  var formatStr = dateStr.split('+')[0]
-  return new Date(formatStr)
+  var m = moment(dateStr)
+  return m.toDate();
 }
 
 const CitySaveKey = 'CitySaveKey';
@@ -83,18 +122,25 @@ function clearAllCity() {
   AsyncStorage.removeItem(CitySaveKey);
 }
 
+const isIOS = (require('Platform').OS == 'ios');
+
 const Utilies = {
+  isIOS: isIOS,
   clearColor:'rgba(0,0,0,0)',
-  titleViewHeight:120,
-  tempCellHeight:130,
+  commonBgColor:'rgb(76,154,194)',
+  lineColor:'#FFFFFF88',
+  lineWidth:1,    // 小于1 显示有问题
+  titleViewHeight:140,
+  tempCellHeight:200,
   dimensions:require('Dimensions').get('window'),
+  randomColor:randomColor,
+  iconImage:iconImage,
   getCurrentWeekDay:getCurrentWeekDay,
   dateFormatter:customDateFomatter,
   saveCityList:saveCityList,
   readCityList:readCityList,
   clearAllCity:clearAllCity,
   allCitys:[],
-  commonIconURI:'http://icons.wxug.com/i/c/k/chancetstorms.gif',
   searchCity:searchCity,
   appleAPI:{
     queryWeather:appleQueryWeather

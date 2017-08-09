@@ -20,7 +20,7 @@ import {
   TodayDetailHeader,
   WeatherDescribeCell,
   WeatherDetailCell
-} from './listViewCells';
+} from './weatherCells';
 import CityListPage from './cityList'
 
 class WeatherView extends Component {
@@ -35,8 +35,8 @@ class WeatherView extends Component {
     this.state = {
       dataSource: ds.cloneWithRowsAndSections({},[],[]),
       allData:null,
-      headerTopRatio:1.0,
     };
+    this.lastRatio = 1.0;
   }
   componentWillMount() {
     this.loadCityData();
@@ -44,12 +44,11 @@ class WeatherView extends Component {
   render() {
     return (
       <View style={{width:Utilies.dimensions.width}}>
-        <TitleView topOffset={(30 + (this.state.headerTopRatio * 30))}
+        <TitleView ref={'titleView'}
            cityName={this.props.city == null ? '-' : this.props.city.name}
            weatherType={this.state.allData == null ? '': this.state.allData.conditionsshort.observation.wx_phrase} />
-         <TemperatureView alpha={this.state.headerTopRatio > 0.3 ? this.state.headerTopRatio : 0}
-           topOffset={Utilies.titleViewHeight - (50 *(1- this.state.headerTopRatio))}
-           temperature={this.state.currentTemp}/>
+         <TemperatureView ref={'temperatureView'}
+           temperature={this.state.allData == null ? '-' : this.state.allData.conditionsshort.observation.metric.temp}/>
            <ListView style = {{flex:1}}
              enableEmptySections={true}
              onScroll={(event)=>this.onScroll(event)}
@@ -57,7 +56,7 @@ class WeatherView extends Component {
              showsVerticalScrollIndicator={false}
              showsHorizontalScrollIndicator={false}
              dataSource = {this.state.dataSource}
-             renderRow = {this.renderRow}
+             renderRow = {(rowData, sectionID, rowID)=>this.renderRow(rowData, sectionID, rowID)}
              renderSectionHeader = {this.renderSectionHeader}>
            </ListView>
       </View>
@@ -130,7 +129,6 @@ class WeatherView extends Component {
       this.setState({
         dataSource:this.state.dataSource.cloneWithRowsAndSections(dataBlob,sectionIDs,rowIDs),
         allData:dataBlob,
-        currentTemp:currentTemp,
       })
     }
     Utilies.appleAPI.queryWeather(this.props.city.lat, this.props.city.lon, (data)=>{
@@ -138,15 +136,15 @@ class WeatherView extends Component {
     })
   }
 
-  renderRow(rowData, sectionID, rowID, highlightRow) {
+  renderRow(rowData, sectionID, rowID) {
     if (rowID == 'conditionsshort') {
       return (<TodayOverviewCell weatherData={rowData}/>)
     }
     if (rowID == 'fcstdaily10short') {
-      return (<FutureWeatherCell weatherData={rowData} />)
+      return (<FutureWeatherCell weatherData={rowData}/>)
     }
     if (rowID == 'describe') {
-      return (<WeatherDescribeCell />)
+      return (<WeatherDescribeCell weatherData={this.state.allData}/>)
     }
     if (rowID == 'weatherDetail') {
       return (<WeatherDetailCell weatherData={rowData}/>)
@@ -162,15 +160,19 @@ class WeatherView extends Component {
   }
 
   onScroll(event) {
-    var opacity = event.nativeEvent.contentOffset.y / Utilies.tempCellHeight;
+    var offsetY = event.nativeEvent.contentOffset.y;
+    var opacity = offsetY / Utilies.tempCellHeight;
     if (opacity <= 1) {
       var ratio = 1 - opacity ;
-      if (ratio > 1) {
-        ratio = 1;
+      if (ratio >= 1) {ratio = 1;}
+      if (ratio != this.lastRatio) {
+        this.refs.titleView.setNativeProps({style:{paddingTop:40 * (ratio + 1)}});
+        this.refs.temperatureView.setNativeProps({
+          style:{opacity:ratio>0.3?ratio:0,
+                 top:Utilies.titleViewHeight - (50 *(1- ratio))}
+               })
       }
-      this.setState({
-        headerTopRatio: ratio
-      })
+      this.lastRatio = ratio
     }
   }
 }
