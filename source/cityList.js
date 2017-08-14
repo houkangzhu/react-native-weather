@@ -69,7 +69,7 @@ class CityListPage extends Component {
             this.props.onChangeCity(rowData)
             this.props.navigator.pop()}
           }>
-          <CityCell cityData={rowData} style={{paddingTop:paddingToprr}}/>
+          <CityCell cityData={rowData} style={{paddingTop:paddingTop}}/>
       </TouchableOpacity>)
   }
   renderDeleteRow(data, secId, rowId, rowMap) {
