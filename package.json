@@ -10,7 +10,7 @@
     "moment": "^2.18.1",
     "react": "16.0.0-alpha.6",
     "react-native": "0.43.3",
-    "react-native-swipe-list-view": "^0.4.1"
+    "react-native-swipe-list-view": "0.4.1"
   },
   "devDependencies": {
     "babel-jest": "19.0.0",
